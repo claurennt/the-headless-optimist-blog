@@ -9,7 +9,12 @@ const ScrollToTop = (props) => {
     window.scrollTo(0, 0);
   }, [location]);
 
-  return <div style={{ scrollBehavior: "smooth" }}>{props.children}</div>;
+  return (
+    <div style={{ scrollBehavior: "smooth" }}>
+      {" "}
+      <div className="mx-5">{props.children}</div>
+    </div>
+  );
 };
 
 export default ScrollToTop;

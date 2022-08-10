@@ -4,7 +4,7 @@ import client from "./client/contentfulClient";
 //custom hook that uses the Content Delivery API to fetch articles from Contentful's space and returns the data
 const useContentful = () => {
   const [blogPosts, setBlogPosts] = useState();
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
