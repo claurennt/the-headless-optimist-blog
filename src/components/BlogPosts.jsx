@@ -30,7 +30,13 @@ const BlogPosts = ({ blogPosts }) => {
       //else we return all the post without any filtering
       return post;
     })
-    .map((post) => <IndividualPost key={post.sys.id} {...post} />);
+    .map((post) => (
+      <IndividualPost
+        key={post.sys.id}
+        {...post}
+        detailedView={entry_id ? true : false}
+      />
+    ));
 };
 
 export default BlogPosts;

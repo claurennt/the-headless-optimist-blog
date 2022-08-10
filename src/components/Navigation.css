@@ -5,7 +5,6 @@
   padding: 0 10px;
   color: white;
   text-decoration: none;
-  font-size: 1.5vw;
 }
 .navbarLink:hover {
   text-decoration: underline;
@@ -14,4 +13,10 @@
 
 .navbarLink:focus {
   color: #f9e900;
+}
+
+@media (max-width: 768px) {
+  .navbarLink {
+    font-size: 1.2em;
+  }
 }
