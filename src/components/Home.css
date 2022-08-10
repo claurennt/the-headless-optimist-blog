@@ -2,3 +2,11 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
+
+h1 {
+  color: #f9e900;
+}
+
+h2 {
+  color: #6b76ff;
+}

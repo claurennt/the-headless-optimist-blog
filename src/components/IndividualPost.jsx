@@ -10,12 +10,18 @@ import Image from "react-bootstrap/Image";
 export default function IndividualPost({
   sys: { id },
   fields: { publishingDate, postAuthor, source, body, title, titleMedia },
+  detailedView,
 }) {
   const trimmedBlogPostBody = body.slice(0, 300) + `...`;
 
   return (
-    <div className="IndividualPost col-lg-4 col-md-6 col-xs-12 m-5 d-flex flex-column mx-auto ">
-      <Card bg="bg" className="h-auto">
+    // apply bootstrap's grid layout if we are not in detailed view
+    <div
+      className={`IndividualPost ${
+        !detailedView ? "col-lg-4 col-md-6 col-sm-6 col-xs-12" : "w-75"
+      } m-5 d-flex flex-column mx-auto`}
+    >
+      <Card bg="bg">
         <Card.Header className="heightHeader d-flex">
           <h4 className="mx-auto">{title}</h4>
         </Card.Header>
@@ -25,15 +31,20 @@ export default function IndividualPost({
             alt="Article cover"
             className="img-fluid mx-auto objectFit m-4"
           />
-          <Markdown className="pb-1">{trimmedBlogPostBody}</Markdown>
-
-          <Link to={`articles/${id}`} className="mb-5">
-            Read More
-          </Link>
+          {/* if we aren't in detailed view show the trimmed article body else the full article*/}
+          <Markdown className="pb-1">
+            {detailedView ? body : trimmedBlogPostBody}
+          </Markdown>
+          {/* if we aren't in detailed view show the button*/}
+          {!detailedView && (
+            <Link to={`articles/${id}`} className="mb-3 pb-2">
+              Read More
+            </Link>
+          )}
         </Card.Body>
-        <Card.Footer className="text-muted py-1 ">
-          <p>
-            <a className="source-link" href={source} target="_blank">
+        <Card.Footer className="text-muted py-1">
+          <p className="text-muted">
+            <a href={source} target="_blank">
               News Source
             </a>
             | published on
