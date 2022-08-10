@@ -1,0 +1,36 @@
+.card {
+  border: 1px solid #6b76ff;
+}
+
+.objectFit {
+  width: 100%;
+  height: 50%;
+  object-fit: contain;
+}
+
+.heightHeader {
+  height: 20%;
+}
+.heightHeader h4 {
+  font-size: calc(10px + 6 * ((100vw - 100px) / 680)) !important;
+}
+a {
+  color: #6b76ff;
+  text-decoration: none;
+}
+
+.card-header {
+  background-color: #f1f2ff;
+}
+
+.card-footer {
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fefce0;
+}
+
+.cardHeight {
+}

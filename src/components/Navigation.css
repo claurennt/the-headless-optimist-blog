@@ -1,0 +1,17 @@
+.navbarContainer {
+  background-color: #6b76ff;
+}
+.navbarLink {
+  padding: 0 10px;
+  color: white;
+  text-decoration: none;
+  font-size: 1.5vw;
+}
+.navbarLink:hover {
+  text-decoration: underline;
+  color: #f9e900;
+}
+
+.navbarLink:focus {
+  color: #f9e900;
+}
