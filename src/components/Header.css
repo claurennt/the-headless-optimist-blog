@@ -1,0 +1,13 @@
+.Header {
+  background-color: #f9e900;
+  color: #6b76ff;
+}
+.logo {
+  width: 50%;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    width: 80%;
+  }
+}
