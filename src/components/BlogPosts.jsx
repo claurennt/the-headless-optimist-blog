@@ -1,42 +1,48 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import IndividualPost from "./IndividualPost";
-import qs from "querystringify";
 
-const BlogPosts = ({ blogPosts }) => {
-  const { entry_id, tag, author } = useParams();
+const BlogPosts = ({ blogPosts, query }) => {
+  const { tag, author } = useParams();
 
-  let { search } = useLocation();
+  return (
+    <div className="row mt-5">
+      {tag && <h3>Articles about category: {tag}</h3>}
+      {author && <h3>Articles by: {author}</h3>}
+      {query && <h3>Articles about search word: {query}</h3>}
 
-  const searchQuery = qs.parse(search).searchField;
+      {blogPosts
+        ?.filter((post) => {
+          //if the user searched for a word in the seaarch abr then we filter the articles with body or title containing the word
+          if (query)
+            return (
+              post.fields.body.toLowerCase().includes(query.toLowerCase()) ||
+              post.fields.title.toLowerCase().includes(query.toLowerCase())
+            );
 
-  return blogPosts
-    ?.filter((post) => {
-      //if the user searched for a word in the seaarch abr then we filter the articles with body or title containing the word
-      if (searchQuery)
-        return (
-          post.fields.body.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          post.fields.title.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+          //if we have the tag in the url params then we filter the articles with the tag equal to the param
+          if (tag) return tag === post.metadata.tags[0]?.sys.id;
 
-      //if we have the entry_id in the url params then we filter the articles with the id equal to the param
-      if (entry_id) return entry_id === post.sys.id;
+          //if we have the author in the url params then we filter the articles with the author equal to the param
+          if (author) return author === post.fields.postAuthor;
 
-      //if we have the tag in the url params then we filter the articles with the tag equal to the param
-      if (tag) return tag === post.metadata.tags[0].sys.id;
-
-      //if we have the author in the url params then we filter the articles with the author equal to the param
-      if (author) return author === post.fields.postAuthor;
-
-      //else we return all the post without any filtering
-      return post;
-    })
-    .map((post) => (
-      <IndividualPost
-        key={post.sys.id}
-        {...post}
-        detailedView={entry_id ? true : false}
-      />
-    ));
+          //else we return all the post without any filtering
+          return post;
+        })
+        .map((post) => (
+          <div
+            className={`IndividualPost col-lg-4 col-md-6 col-sm-6 col-xs-12 m-5 d-flex flex-column mx-auto`}
+            key={post.sys.id}
+          >
+            <IndividualPost
+              key={post.sys.id}
+              post={post}
+              tag={tag}
+              query={query}
+            />
+          </div>
+        ))}
+    </div>
+  );
 };
 
 export default BlogPosts;

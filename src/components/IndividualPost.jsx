@@ -1,27 +1,31 @@
 import "./IndividualPost.css";
 import Markdown from "markdown-to-jsx";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import moment from "moment";
-import { useParams } from "react-router-dom";
+
 import Card from "react-bootstrap/Card";
 
 import Image from "react-bootstrap/Image";
 
-export default function IndividualPost({
-  sys: { id },
-  fields: { publishingDate, postAuthor, source, body, title, titleMedia },
-  detailedView,
-}) {
-  const trimmedBlogPostBody = body.slice(0, 300) + `...`;
+export default function IndividualPost({ post, blogPosts, detailedView }) {
+  const { entry_id } = useParams();
 
-  return (
-    // apply bootstrap's grid layout if we are not in detailed view
-    <div
-      className={`IndividualPost ${
-        !detailedView ? "col-lg-4 col-md-6 col-sm-6 col-xs-12" : "w-75"
-      } m-5 d-flex flex-column mx-auto`}
-    >
-      <Card bg="bg">
+  // if the post prop is not defined then it means that we are retunrning this component at /article:entry_id hence we find the post that maches the param
+  const postToDisplay =
+    post ?? blogPosts?.find((post) => post.sys.id === entry_id);
+
+  if (postToDisplay) {
+    //destructure all the props from the postToDisplay only when postToDisplay is defined/truthy
+    const {
+      sys: { id },
+      fields: { title, body, titleMedia, publishingDate, postAuthor, source },
+    } = postToDisplay;
+
+    //trimm the body if we are not in detailed view
+    const trimmedBlogPostBody = body.slice(0, 300) + `...`;
+
+    return (
+      <Card bg="bg" className={`${detailedView && "mt-5"}`}>
         <Card.Header className="heightHeader d-flex">
           <h4 className="mx-auto">{title}</h4>
         </Card.Header>
@@ -37,14 +41,14 @@ export default function IndividualPost({
           </Markdown>
           {/* if we aren't in detailed view show the button*/}
           {!detailedView && (
-            <Link to={`articles/${id}`} className="mb-3 pb-2">
+            <Link to={`/articles/${id}`} className="mb-3 pb-2">
               Read More
             </Link>
           )}
         </Card.Body>
         <Card.Footer className="text-muted py-1">
           <p className="text-muted">
-            <a href={source} target="_blank">
+            <a href={source} target="_blank" rel="noreferrer">
               News Source
             </a>
             | published on
@@ -54,6 +58,6 @@ export default function IndividualPost({
           </p>{" "}
         </Card.Footer>
       </Card>
-    </div>
-  );
+    );
+  }
 }
