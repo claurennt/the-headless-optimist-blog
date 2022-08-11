@@ -1,43 +1,55 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Routes, Route, useSearchParams } from "react-router-dom";
+
+import { useRef } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import ScrollToTop from "./ScrollToTop";
 
 import Spinner from "react-bootstrap/Spinner";
 
 import BlogPosts from "./components/BlogPosts";
+import IndividualPost from "./components/IndividualPost";
 import Home from "./components/Home";
 import Header from "./components/Header";
 import useContentful from "./useContentful";
-
-import qs from "querystringify";
+import useCustomSearchParams from "./useCustomSearchParams";
 
 const App = () => {
-  const { blogPosts, isLoading } = useContentful();
-  const [searchParams, setSearchParams] = useSearchParams({ query: "" });
+  const myForm = useRef(null);
 
-  function handleSearchWord(event) {
+  const { blogPosts, isLoading } = useContentful();
+
+  const { query, setSearchParams } = useCustomSearchParams();
+
+  //functions that handles the query string on form submit and resets the form at the end
+  const handleSearchWord = (event) => {
     event.preventDefault();
-    // The serialize function here would be responsible for
-    // creating an object of { key: value } pairs from the
-    // fields in the form that make up the query.
 
     setSearchParams({ query: event.target.query.value });
-  }
+
+    myForm.current.reset();
+  };
 
   return (
     <div className="App">
-      <Header handleSearchWord={handleSearchWord} searchParams={searchParams} />
+      <Header
+        handleSearchWord={handleSearchWord}
+        query={query}
+        myForm={myForm}
+      />
 
       {isLoading && <Spinner animation="border" size="lg" />}
 
       <ScrollToTop>
         <Routes>
-          <Route path="/" element={<Home blogPosts={blogPosts} />} />
+          <Route
+            path="/"
+            element={<Home blogPosts={blogPosts} query={query} />}
+          />
           <Route
             path="articles/:entry_id"
-            element={<BlogPosts blogPosts={blogPosts} detailedView />}
+            element={<IndividualPost blogPosts={blogPosts} detailedView />}
           />
           <Route
             path="category/:tag"

@@ -2,7 +2,7 @@ import "./Home.css";
 
 import BlogPosts from "./BlogPosts";
 
-const Home = ({ blogPosts }) => {
+const Home = ({ ...props }) => {
   return (
     <>
       <h1 className="mt-4 fs-2">Welcome!</h1>
@@ -11,7 +11,7 @@ const Home = ({ blogPosts }) => {
         news from around the world!
       </h2>
 
-      <BlogPosts blogPosts={blogPosts} />
+      <BlogPosts {...props} />
     </>
   );
 };
