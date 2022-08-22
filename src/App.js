@@ -9,20 +9,22 @@ import ScrollToTop from "./ScrollToTop";
 import Spinner from "react-bootstrap/Spinner";
 
 import BlogPosts from "./components/BlogPosts";
+import Error from "./components/Error";
 import IndividualPost from "./components/IndividualPost";
 import Home from "./components/Home";
 import Header from "./components/Header";
+import Authors from "./components/Authors";
 import useContentful from "./useContentful";
 import useCustomSearchParams from "./useCustomSearchParams";
 
 const App = () => {
   const myForm = useRef(null);
 
-  const { blogPosts, isLoading } = useContentful();
+  const { blogPosts, isLoading, isError } = useContentful();
 
   const { query, setSearchParams } = useCustomSearchParams();
 
-  //functions that handles the query string on form submit and resets the form at the end
+  //function that handles the query string on form submit and resets the form at the end
   const handleSearchWord = (event) => {
     event.preventDefault();
 
@@ -40,7 +42,7 @@ const App = () => {
       />
 
       {isLoading && <Spinner animation="border" size="lg" />}
-
+      {isError && <Error />}
       <ScrollToTop>
         <Routes>
           <Route
@@ -53,7 +55,12 @@ const App = () => {
           />
           <Route
             path="category/:tag"
-            element={<BlogPosts blogPosts={blogPosts} />}
+            element={<BlogPosts blogPosts={blogPosts} query={query} />}
+          />
+          <Route path="authors" element={<Authors blogPosts={blogPosts} />} />
+          <Route
+            path="authors/:author"
+            element={<BlogPosts blogPosts={blogPosts} query={query} />}
           />
         </Routes>
       </ScrollToTop>

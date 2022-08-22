@@ -1,5 +1,5 @@
 import "./Header.css";
-import logo from "./logo.jpg";
+import logo from "../assets/logo.jpg";
 import Navigation from "./Navigation";
 import SearchForm from "./SearchForm";
 
