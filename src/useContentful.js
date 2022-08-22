@@ -5,20 +5,26 @@ import client from "./client/contentfulClient";
 const useContentful = () => {
   const [blogPosts, setBlogPosts] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
+    try {
+      (async () => {
+        const response = await client.getEntries();
 
-    (async () => {
-      const response = await client.getEntries();
+        setIsLoading(false);
 
+        setBlogPosts(response.items);
+      })();
+    } catch (err) {
       setIsLoading(false);
-
-      setBlogPosts(response.items);
-    })();
+      setIsError(true);
+      console.log(err);
+    }
   }, []);
 
-  return { blogPosts, isLoading };
+  return { blogPosts, isLoading, isError };
 };
 
 export default useContentful;

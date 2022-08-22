@@ -7,7 +7,7 @@ import Card from "react-bootstrap/Card";
 
 import Image from "react-bootstrap/Image";
 
-export default function IndividualPost({ post, blogPosts, detailedView }) {
+const IndividualPost = ({ post, blogPosts, detailedView }) => {
   const { entry_id } = useParams();
 
   // if the post prop is not defined then it means that we are retunrning this component at /article:entry_id hence we find the post that maches the param
@@ -60,4 +60,6 @@ export default function IndividualPost({ post, blogPosts, detailedView }) {
       </Card>
     );
   }
-}
+};
+
+export default IndividualPost;
